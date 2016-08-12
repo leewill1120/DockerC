@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>创建数据卷</title>
+    <script>
+      window.nodeRequire = require;
+      delete window.require;
+      delete window.exports;
+      delete window.module;
+    </script>
+    <link href="../lib/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../lib/js/jquery.min.js"></script>
+    <script src="../lib/js/bootstrap.min.js"></script>
+    <script src="../lib/js/angular.min.js"></script>.
+    <script src="../lib/angular-animate/angular-animate.min.js"></script>
+    <script src="../lib/angular-toastr/angular-toastr.tpls.js"></script>
+    <link rel="stylesheet" href="../lib/angular-toastr/angular-toastr.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/volumeCreate.css">
+    <script src="../js/common.js"></script>
+    <script src="../js/volumeCreateController.js"></script>
+    <script src="../js/dockerService.js"></script>
+  </head>
+  <body ng-controller='volumeCreateController'>
+    <div class="header" style="background-color:#{{headerColor}};">
+        <div class="topright">
+            <div class="glyphicon glyphicon-remove operator" ng-click="quit();"></div>
+        </div>
+        <div class="headline">
+          <span>创建数据卷</span>
+          <span style="font-style:italic;font-size:20px;">Create Volume</span>
+        </div>
+    </div>
+    <div class="mybody">
+      <form class="form-horizontal" role="form" style="margin:10px;">
+        <div class="form-group" style="margin:10px 0px;">
+          <label for="name" class="col-sm-2 control-label">名称</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" placeholder="数据卷名" ng-model="name">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin:10px 0px;">
+          <label for="name" class="col-sm-2 control-label">类型</label>
+          <div class="col-sm-8">
+            <select class="form-control" ng-model="type" required="required">
+                <option value="local">local</option>
+                <!--option value="flocker">flocker</option-->
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin:10px 0px;" ng-show="type == 'local'">
+          <label for="name" class="col-sm-2 control-label">节点</label>
+          <div class="col-sm-8">
+            <select class="form-control" ng-model="node" required="required";>
+                <option value="">请选择</option>
+                <option ng-repeat="(k,v) in nodes" value="{{k}}">{{k}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin:10px 0px;">
+          <label for="" class="col-sm-2 control-label">标签</label>
+        </div>
+        <div class="form-group" style="margin:10px 0px;">
+          <label for="" class="col-sm-2 control-label"></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="标签名" ng-model="tmpLabelKey">
+          </div>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="标签值" ng-model="tmpLabelValue">
+          </div>
+          <button type="button" class="btn btn-success" ng-click="addLabel(tmpLabelKey, tmpLabelValue);">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+        </div>
+        <div ng-repeat="(k,v) in labels">
+          <div class="form-group" style="margin:10px 0px;">
+            <label for="" class="col-sm-2 control-label"></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="标签名" ng-model="k">
+            </div>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="标签值" ng-model="v">
+            </div>
+            <button type="button" class="btn btn-danger" ng-click="delLabel(k);">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div class="buttongroup">
+        <button class="btn btn-primary" ng-click="volumeCreate();" data-toggle="modal" data-target="#myModal" style="margin:0px 20px;">创 建</button>
+        <button class="btn" ng-click="reset();" style="margin:0px 20px;">重 置</button>
+      </div>
+
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+         aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" style="top:100px;">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <button type="button" class="close" 
+                     data-dismiss="modal" aria-hidden="true">
+                        &times;
+                  </button>
+                  <h4 class="modal-title" id="myModalLabel">
+                      {{createStatus}}
+                  </h4>
+               </div>
+               <div class="modal-body">
+                  <div class="progress {{OnProgressing}}">
+                      <div class="progress-bar progress-bar-{{colorStatus}}" role="progressbar"  style="width:100%;">
+                      </div>
+                  </div>
+                  <div>{{text}}</div>
+               </div>
+               <div class="modal-footer">
+                  <button class="btn btn-primary" ng-click="quit();">完成</button>
+               </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

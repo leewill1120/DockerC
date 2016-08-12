@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app='myApp'>
+  <head>
+    <meta charset="UTF-8">
+    <title>DockerC用户文档</title>
+    <script>
+      window.nodeRequire = window.require;
+      delete window.require;
+      delete window.exports;
+      delete window.module;
+    </script>
+    <link href="../lib/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/help.css" rel="stylesheet">
+    <script src="../lib/js/jquery.min.js"></script>
+    <script src="../lib/js/bootstrap.min.js"></script>
+    <script src="../lib/js/angular.min.js"></script>
+    <script src="../lib/js/ui-bootstrap-tpls-2.0.0.min.js"></script>
+    <script src="../js/helpController.js"></script>
+  </head>
+  <body ng-controller='helpController'>
+    <div class="header" style="background-color:#{{headerColor}};">
+      <div class="topright">
+        <div class="glyphicon glyphicon-minus operator" ng-click="minimize();"></div>
+        <div class="glyphicon glyphicon-fullscreen operator" ng-click="maximize();"></div>
+        <div class="glyphicon glyphicon-remove operator" ng-click="quit();"></div>
+      </div>
+      <div class="headline">
+        <span>用户手册</span>
+        <span style="font-style:italic;font-size:20px;">Documents</span>
+      </div>
+    </div>
+    <webview id="mywebview" src="_blank" class="wv" ></webview>
+  </body>
+</html>

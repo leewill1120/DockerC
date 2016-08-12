@@ -1,0 +1,104 @@
+html,body{
+	height: 100%;
+	width: 100%;
+}
+.header{
+	width:100%;
+	height: 80px;
+	-webkit-app-region: drag;
+	position:fixed;
+	top:0px;
+	z-index:99999;
+}
+
+.headline{
+	font-size: 30px;
+	font-family: '幼圆';
+	color: white;
+	position: absolute;
+	top: 20px;
+	left: 20px;
+}
+
+.topright{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.quit {
+    -webkit-app-region: no-drag;
+    margin:6px;
+    color: white;
+}
+
+.mybody{
+	padding-top:80px;
+	height:90%; 
+	overflow:auto;
+}
+
+.mycontext{
+	padding-top: 20px;
+}
+
+.brief{
+	margin:0 20px;
+}
+
+.left{
+	margin-left:20px;
+	width: 46%;
+	float: left;
+}
+
+.right{
+	margin-right:25px;
+	width: 46%;
+	float: right;
+}
+
+
+.unit{
+	display: inline-block;
+}
+
+.buttongroup{
+	position:fixed;
+	bottom:10px;
+	left: 45%;
+}
+
+
+.group1{
+	padding-bottom: 20px;
+}
+
+.group2{
+	padding-bottom:25px;
+}
+
+.SUCCESS{
+	padding: 0px 20px;
+	color:green;
+}
+
+.FAILED{
+	padding: 0px 20px;
+	color:red;
+}
+
+.operator {
+  border: none;
+  color: white;
+  padding: 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  margin:3px;
+}

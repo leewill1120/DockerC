@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>总览</title>
+    <script>
+      window.nodeRequire = require;
+      delete window.require;
+      delete window.exports;
+      delete window.module;
+    </script>
+    <link href="../lib/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../lib/js/jquery.min.js"></script>
+    <script src="../lib/js/bootstrap.min.js"></script>
+    <script src="../lib/js/angular.min.js"></script>
+    <script src="../lib/js/Chart.js"></script>
+    <script src="../js/summaryController.js"></script>
+    <script src="../js/dockerService.js"></script>
+  </head>
+  <body ng-controller='summaryController' style="font-size: 20px; font-family: '幼圆';">
+    <div style="margin:10px;">
+      <div style="position: absolute; right: 70px; top:70px;text-align: center;">
+        <canvas id="myChart" width="300" height="300"></canvas>
+        <div>容器状态分布</div>
+      </div>
+      <div style="margin:80px;">
+        <div>
+          <label for="">当前用户:</label>
+          <span>{{userName}}</span>
+        </div>
+        <div>
+          <label for="">服务器地址:</label>
+          <span>{{APIAddress}}</span>
+        </div>
+        <div>
+          <label for="">容器数量:</label>
+          <span>{{Info.Containers}}</span>
+        </div>
+        <div>
+          <label for="">镜像数量:</label>
+          <span>{{Info.Images}}</span>
+        </div>
+        <div>
+          <label for="">服务器版本:</label>
+          <span>{{Info.ServerVersion}}</span>
+        </div>
+        <div>
+          <label for="">操作系统:</label>
+          <span>{{Info.OperatingSystem}}</span>
+        </div>
+        <div>
+          <label for="">内核版本:</label>
+          <span>{{Info.KernelVersion}}</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

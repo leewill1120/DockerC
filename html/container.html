@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>容器管理</title>
+    <script>
+      window.nodeRequire = require;
+      delete window.require;
+      delete window.exports;
+      delete window.module;
+    </script>
+    <link href="../lib/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../lib/js/jquery.min.js"></script>
+    <script src="../lib/js/bootstrap.min.js"></script>
+    <script src="../lib/js/angular.min.js"></script>
+    <script src="../lib/angular-animate/angular-animate.min.js"></script>
+    <script src="../lib/angular-toastr/angular-toastr.tpls.js"></script>
+    <link rel="stylesheet" href="../lib/angular-toastr/angular-toastr.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/container.css">
+    <script src="../js/common.js"></script>
+    <script src="../js/containerController.js"></script>
+    <script src="../js/dockerService.js"></script>
+  </head>
+  <body ng-controller='containerController'>
+    <nav class="navbar navbar-default col-sm-12 mynav" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">容器列表</a>
+      </div>
+        <div class="navbar-form navbar-left" role="search">
+           <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search" ng-model="filterWord" ng-keyup="searchKeyUp();">
+           </div>
+           <!-- button type="submit" class="btn btn-default">提交按钮</button-->
+        </div>
+        <button type="button" class="btn btn-default navbar-btn" ng-click="refresh();">
+          <span class="glyphicon glyphicon-refresh"></span>
+          <span>刷新</span>
+        </button>
+        <button type="button" class="btn btn-default navbar-btn" ng-click="containerCreate();">
+          <span class="glyphicon glyphicon-plus"></span>
+          <span>新建</span>
+        </button>
+        <div class="btn-group" ng-show="multiOperatorButtonDisplay" style="margin-left: 10px;">
+          <button type="button" class="btn btn-default" ng-click="startMulti();">
+            <span class="glyphicon glyphicon-play"></span>
+            <span>启动</span>
+          </button>
+          <button type="button" class="btn btn-default" ng-click="stopMulti();">
+            <span class="glyphicon glyphicon-stop"></span>
+            <span>停止</span>
+          </button>
+          <button type="button" class="btn btn-default" ng-click="restartMulti();">
+            <span class="glyphicon glyphicon-refresh"></span>
+            <span>重启</span>
+          </button>
+          <button type="button" class="btn btn-default" ng-click="removeMulti();">
+            <span class="glyphicon glyphicon-remove"></span>
+            <span>删除</span>
+          </button>
+        </div>
+    </nav>
+    <div style="padding-top: 51px;">
+      <div>{{status}}</div>
+      <table class="table table-hover table-bordered table-striped">
+        <th>
+          <input type="checkbox" ng-model="all" ng-click="selectAll();">
+        </th>
+        <th>序号</th>
+        <th>名称</th>
+        <th>镜像</th>
+        <th>网络</th>
+        <th>IP</th>
+        <th>创建时间</th>
+        <th>状态</th>
+        <th>创建者</th>
+        <th>操作</th>
+        <tr ng-repeat="c in containers">
+          <td>
+            <input type="checkbox" ng-model="c.Checked" ng-click="selectOne();" ng-disabled="!verifyUser(c.Id);">
+          </td>
+          <td>{{$index+1}}</td>
+          <td>
+            <a href="#" ng-click="containerInspect(c.Id);">{{c.Name}}</a>
+          </td>
+          <td>
+            <a href="#" title="{{c.fullPathImage}}" ng-click="imageInspect(c.fullPathImage)">{{c.Image}}</a>
+          </td>
+          <td>
+            <div ng-repeat="(k,v) in c.Network">
+              <div>{{k}}</div>
+            </div>
+          </td>
+          <td>
+            <div ng-repeat="(k,v) in c.Network">
+              <div>{{ v | getIpAddress }}</div>
+            </div>
+          </td>
+          <td>{{c.Created}}</td>
+          <td>
+            <label class="label label-{{c.StateCSS}}">{{c.State}}</label>
+          </td>
+          <td>{{c.Owner}}</td>
+          <td>
+            <div class="btn-group">
+                 <button class="btn btn-primary btn-xs glyphicon glyphicon-cog dropdown-toggle" data-toggle="dropdown"></button>
+                              <ul class="dropdown-menu pull-right" role="menu">
+                  <li><a href="#" ng-click="containerStart(c.Id);" ng-show="verifyUser(c.Id);">启动</a></li>
+                  <li><a href="#" ng-click="containerRestart(c.Id);" ng-show="verifyUser(c.Id);">重启</a></li>
+                  <li><a href="#" ng-click="containerStop(c.Id);" ng-show="verifyUser(c.Id);">停止</a></li>
+                  <li><a href="#" ng-click="containerClone(c.Id);">克隆</a></li>
+                  <li><a href="#" ng-click="containerUpdate(c.Name);" ng-show="verifyUser(c.Id);">升级</a></li>
+                  <li><a href="#" ng-click="containerRemove(c.Id);" ng-show="verifyUser(c.Id);">删除</a></li>
+                  <li><a href="#" ng-click="containerInspect(c.Id);">详细信息</a></li>
+               </ul>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

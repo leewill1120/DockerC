@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>网络管理</title>
+    <script>
+    window.nodeRequire = require;
+    delete window.require;
+    delete window.exports;
+    delete window.module;
+    </script>
+    <link href="../lib/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../lib/js/jquery.min.js"></script>
+    <script src="../lib/js/bootstrap.min.js"></script>
+    <script src="../lib/js/angular.min.js"></script>
+    <script src="../lib/angular-animate/angular-animate.min.js"></script>
+    <script src="../lib/angular-toastr/angular-toastr.tpls.js"></script>
+    <link rel="stylesheet" href="../lib/angular-toastr/angular-toastr.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/network.css">
+    <script src="../js/common.js"></script>
+    <script src="../js/networkController.js"></script>
+    <script src="../js/dockerService.js"></script>
+  </head>
+  <body ng-controller='networkController'>
+    <nav class="navbar navbar-default col-sm-12 mynav" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">网络列表</a>
+      </div>
+      <div class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" ng-model="filterWord" ng-keyup="searchKeyUp();">
+        </div>
+      </div>
+      <button type="button" class="btn btn-default navbar-btn" ng-click="refresh();">
+      <span class="glyphicon glyphicon-refresh"></span>
+      <span>刷新</span>
+      </button>
+      <button type="button" class="btn btn-default navbar-btn" ng-click="networkCreate();">
+      <span class="glyphicon glyphicon-plus"></span>
+      <span>新建</span>
+      </button>
+      <div class="btn-group" ng-show="multiOperatorButtonDisplay" style="margin-left: 10px;">
+        <button type="button" class="btn btn-default" ng-click="removeMulti();">
+        <span class="glyphicon glyphicon-remove"></span>
+        <span>删除</span>
+        </button>
+      </div>
+    </nav>
+    <div style="padding-top: 51px;">
+      <div>{{status}}</div>
+      <table class="table table-hover table-bordered table-striped">
+        <th>
+          <input type="checkbox" ng-model="all" ng-click="selectAll();">
+        </th>
+        <th>序号</th>
+        <th>ID</th>
+        <th>名称</th>
+        <th>驱动</th>
+        <th>范围</th>
+        <th>子网</th>
+        <th>创建者</th>
+        <th>操作</th>
+        <tr ng-repeat="n in networks">
+          <td>
+            <input type="checkbox" ng-model="n.Checked" ng-click="selectOne();">
+          </td>
+          <td>{{ $index+1}}</td>
+          <td>{{n.Id}}</td>
+          <td>{{n.Name}}</td>
+          <td>{{n.Driver}}</td>
+          <td>{{n.Scope}}</td>
+          <td>{{n.Subnet}}</td>
+          <td>{{n.Owner}}</td>
+          <td>
+            <div class="btn-group">
+              <button class="btn btn-primary btn-xs glyphicon glyphicon-cog dropdown-toggle" data-toggle="dropdown"></button>
+              <ul class="dropdown-menu pull-right" role="menu">
+                <li><a href="#" ng-click="networkInspect(n.Id);">详细信息</a></li>
+                <li><a href="#" ng-click="networkRemove(n.Id);">删除</a></li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+.header{
+  width: 100%;
+  height: 120px;
+  font-size: 12px;
+  -webkit-app-region: drag;
+  -webkit-user-select: none;
+  position: relative;
+}
+
+.wv{
+  width: 100%;
+  height: 80%;
+  position: absolute;
+}
+
+.bottom {
+  background-color: #e7e7e7;
+  border: none;
+  color: black;
+  width: 100%;
+  height: 20px;
+  line-height: 20px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  padding-left: 4px;
+  position:fixed;
+  bottom: 0;
+}
+.logo{
+  -webkit-app-region: no-drag;
+  width: 200px;
+  cursor:pointer;
+}
+
+.logo1{
+  padding-top:8px;
+  padding-left: 10px;
+  font-size: 50px;
+  font-family: '幼圆';
+  color: white;
+  font-style: italic;
+  display: inline-block;
+}
+.logo2{
+  position:relative;
+  bottom:5px;
+  left: 10px;
+  font-size: 15px;
+  font-family: '幼圆';
+  color: white;
+  display: inline-block;
+}
+
+.topright{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.operator {
+  border: none;
+  color: white;
+  padding: 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  margin:3px;
+}
+
+.headerbutton{
+  color: white;
+  font-size: 20px;
+  height: 50px;
+  width: 130px;
+  line-height: 50px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 5px 20px;
+}
+.headerbutton:hover {
+    background-color: #aaaaaa;
+    text-shadow: 5px 5px 5px #000000;
+}
+
+.c1{
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  -webkit-app-region: no-drag;
+}
+
+.selected{
+  text-shadow: 5px 5px 5px #000000;
+}
+
+.bottomInfo{
+  margin-right:10px;
+}

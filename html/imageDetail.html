@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>镜像详情</title>
+    <script>
+      window.nodeRequire = require;
+      delete window.require;
+      delete window.exports;
+      delete window.module;
+    </script>
+    <link href="../lib/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../lib/js/jquery.min.js"></script>
+    <script src="../lib/js/bootstrap.min.js"></script>
+    <script src="../lib/js/angular.min.js"></script>
+    <script src="../lib/angular-animate/angular-animate.min.js"></script>
+    <script src="../lib/angular-toastr/angular-toastr.tpls.js"></script>
+    <link rel="stylesheet" href="../lib/angular-toastr/angular-toastr.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/imageDetail.css">
+    <script src="../js/imageDetailController.js"></script>
+    <script src="../js/dockerService.js"></script>
+  </head>
+  <body ng-controller='imageDetailController'>
+    <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 5px;">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">镜像信息</a>
+      </div>
+        <button type="button" class="btn btn-default navbar-btn" ng-click="goBack();">
+           返回
+        </button>
+        <button type="button" class="btn btn-default navbar-btn" ng-click="refresh();">
+           刷新
+        </button>
+        <button type="button" class="btn btn-default navbar-btn" ng-click="more();">
+           {{moreShowWord}}
+        </button>
+    </nav>
+    <div class="mybody">
+      <div style="display:{{summaryDisplay}};">
+        <div class="form-inline">
+          <label for="">镜像ID</label>
+          <span>{{Info.Id | formatID}}</span>
+        </div>
+        <div class="form-inline">
+          <label for="">作者</label>
+          <span>{{Info.Author}}</span>
+        </div>
+        <div class="form-inline">
+          <label for="">创建时间</label>
+          <span>{{Info.Created | formatTime}}</span>
+        </div>
+        <label for="">标签</label>
+        <ul ng-repeat="r in Info.RepoTags">
+          <li>{{r}}</li>
+        </ul>
+        <div class="form-inline">
+          <label for="">Entrypoint</label>
+          <span>{{Info.Config.Entrypoint}}</span>
+        </div>
+        <div class="form-inline">
+          <label for="">Cmd</label>
+          <span>{{Info.Config.Cmd}}</span>
+        </div>
+        <div class="form-inline">
+          <label for="">WorkingDir</label>
+          <span>{{Info.Config.WorkingDir}}</span>
+        </div>
+        <div class="form-inline">
+          <label for="">Size</label>
+          <span>{{Info.Size}}</span>
+        </div>
+        <div>
+          <label for="">数据卷</label>
+          <ul ng-repeat="(k, v) in Info.Config.Volumes">
+            <li>{{k}}</li>
+          </ul>
+        </div>
+        <div>
+          <label for="">服务端口</label>
+          <ul ng-repeat="(k, v) in Info.Config.ExposedPorts">
+            <li>{{k}}</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <textarea name="" id="" rows="20" class="mytextarea form-control" style="display:{{moreDisplay}}">{{TextArea}}</textarea>
+      </div>
+    </div>
+  </body>
+</html>

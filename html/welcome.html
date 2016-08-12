@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app='myApp'>
+  <head>
+    <meta charset="UTF-8">
+    <title>welcome</title>
+    <style>
+      body{
+        -webkit-app-region: drag;
+        -webkit-user-select: none;
+        font-family: '幼圆';
+        font-size:20px;
+        background: url(../image/bg.jpg);
+        background-size: cover;
+        text-align: center;
+      }
+      @-webkit-keyframes myfirst
+      {
+        0%   {top:200px;}
+        100%  {top:100px;}
+      }
+      .words{
+        position: relative;
+        top:100px;
+        margin:0px;
+        height: 20px;
+        line-height: 20px;
+      }
+      .english{
+        font-size: 12px;
+        font-family: 'Tempus Sans ITC';
+      }
+      span{
+        margin:5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="words" style="animation:myfirst 3s;">
+      <div>
+        <span>让</span>
+        <span>金</span>
+        <span>融</span>
+        <span>变</span>
+        <span>简</span>
+        <span>单</span>
+      </div>
+      <div class="english">
+        <span>MAKE</span>
+        <span>THE</span>
+        <span>FINANCE</span>
+        <span>EASY</span>
+      </div>
+    </div>
+  </body>
+</html>

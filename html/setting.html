@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>设置</title>
+    <script>
+    window.nodeRequire = require;
+    delete window.require;
+    delete window.exports;
+    delete window.module;
+    </script>
+    <link href="../lib/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../lib/css/pick-a-color-1.2.3.min.css">
+    <script src="../lib/js/jquery.min.js"></script>
+    <script src="../lib/js/bootstrap.min.js"></script>
+    <script src="../lib/js/angular.min.js"></script>
+    <script src="../lib/angular-animate/angular-animate.min.js"></script>
+    <script src="../lib/angular-toastr/angular-toastr.tpls.js"></script>
+    <link rel="stylesheet" href="../lib/angular-toastr/angular-toastr.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link href="../css/setting.css" rel="stylesheet">
+    <script src="../lib/js/tinycolor-min.js"></script>
+    <script src="../lib/js/pick-a-color-1.2.3.min.js"></script>
+    <script src="../js/settingController.js"></script>
+    <script src="../js/dockerService.js"></script>
+  </head>
+  <body ng-controller='settingController'>
+    <div class="header" style="background-color:#{{headerColor}};">
+      <div class="topright">
+        <div class="glyphicon glyphicon-remove operator" ng-click="quit();"></div>
+      </div>
+      <div class="headline">
+        <span>设置中心</span>
+        <span style="font-style:italic;font-size:20px;">Settings</span>
+      </div>
+    </div>
+    <div class="mybody">
+      <form class="form-horizontal" role="form">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">背景色</label>
+          <div class="col-sm-9">
+            <input type="text" ng-model="headerColor" class="pick-a-color form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">用户名</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="userName" placeholder="输入你的名字" >
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">服务器地址</label>
+          <div class="col-sm-3" style="padding-right:0px;">
+            <input type="text" class="form-control" ng-model="dockerIP">
+          </div>
+          <label class="col-sm-1 control-label" style="padding-left:0px; padding-right:0px;">端口</label>
+          <div class="col-sm-3">
+            <input type="number" class="form-control" ng-model="dockerPort">
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-default" ng-click="test();">测试</button>
+          </div>
+          <label class="{{testResult}} col-sm-1 control-label">
+            <span class="glyphicon glyphicon-{{testResult}}"></span>
+          </label>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+             <div class="checkbox">
+                <label>
+                   <input type="checkbox" ng-model="enableTLS">启用TLS安全连接
+                </label>
+             </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+             <div class="checkbox">
+                <label>
+                   <input type="checkbox" ng-model="advance">高级设置
+                </label>
+             </div>
+          </div>
+        </div>
+
+        <div>
+          <div ng-show="advance == true">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">DockerS地址</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="dockersURL">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <button class="btn btn-primary okbutton" ng-click="saveAndExit();">确定</button>
+    <script type="text/javascript">
+    $(document).ready(function () {
+    $(".pick-a-color").pickAColor();
+    });
+    </script>
+  </body>
+</html>

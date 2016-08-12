@@ -1,0 +1,31 @@
+.header{
+	width:100%;
+	height: 10%;
+	background-color: #800080;
+	-webkit-app-region: drag;
+}
+
+.headline{
+	font-size: 15px;
+	font-family: '幼圆';
+	color: white;
+	position: absolute;
+	top: 20px;
+	left: 20px;
+}
+
+.topright{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.quit {
+    -webkit-app-region: no-drag;
+    margin:6px;
+    color: white;
+}
+
+.mybody{
+	height: 90%;
+}

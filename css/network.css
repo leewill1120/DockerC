@@ -1,0 +1,8 @@
+.settingbutton:hover{
+	color: #0000FF;
+}
+.settingbutton:active{
+}
+.tablehead{
+	position: fixed;
+}

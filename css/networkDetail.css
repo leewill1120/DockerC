@@ -1,0 +1,17 @@
+html,body{
+	height: 100%;
+}
+.summary{
+	padding:0px 20px;
+}
+
+.containertable{
+	margin:0px 20px;
+	height:52%; 
+	overflow:auto;
+}
+
+.mypanel{
+	background-color: #AAAAAA;
+	padding: 8px;
+}

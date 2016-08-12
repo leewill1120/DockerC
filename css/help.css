@@ -1,0 +1,49 @@
+html,body{
+  height: 100%;
+  widows: 100%;
+}
+.header{
+  width: 100%;
+  height: 10%;
+  font-size: 12px;
+  -webkit-app-region: drag;
+  -webkit-user-select: none;
+  position: relative;
+}
+
+.wv{
+  width: 100%;
+  height: 90%;
+  position: absolute;
+}
+
+.topright{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.operator {
+  border: none;
+  color: white;
+  padding: 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  margin:3px;
+}
+
+.headline{
+  font-size: 25px;
+  font-family: '幼圆';
+  color: white;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+}

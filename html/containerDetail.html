@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>容器详情</title>
+    <script>
+      window.nodeRequire = require;
+      delete window.require;
+      delete window.exports;
+      delete window.module;
+    </script>
+    <link href="../lib/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../lib/js/jquery.min.js"></script>
+    <script src="../lib/js/bootstrap.min.js"></script>
+    <script src="../lib/js/angular.min.js"></script>
+    <script src="../lib/angular-animate/angular-animate.min.js"></script>
+    <script src="../lib/angular-toastr/angular-toastr.tpls.js"></script>
+    <link rel="stylesheet" href="../lib/angular-toastr/angular-toastr.css">
+    <script src="../lib/js/echarts.min.js"></script>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/containerDetail.css">
+    <script src="../js/containerDetailController.js"></script>
+    <script src="../js/dockerService.js"></script>
+  </head>
+  <body ng-controller='containerDetailController'>
+    <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 5px;">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">容器信息</a>
+      </div>
+        <button type="button" class="btn btn-default navbar-btn" ng-click="goBack();">
+           返回
+        </button>
+        <button type="button" class="btn btn-default navbar-btn" ng-click="refresh();">
+           刷新
+        </button>
+        <!--button type="button" class="btn btn-default navbar-btn" ng-click="openConsole();">
+           控制台
+        </button-->
+        <button type="button" class="btn btn-default navbar-btn" ng-click="logs();">
+           {{logsShowWord}}
+        </button>
+        <button type="button" class="btn btn-default navbar-btn" ng-click="more();">
+           {{moreShowWord}}
+        </button>
+    </nav>
+    <div class="mybody">
+      <div style="display:{{summaryDisplay}};">
+        <div style="width:30%;height:400px;float:left;">
+        <div class="btn-group" style="margin-bottom: 10px;" ng-show="showButtonGroup">
+          <button class="btn btn-success" ng-click="containerStart();">启动</button>
+          <button class="btn btn-info" ng-click="containerPause();">{{btnPause}}</button>
+          <button class="btn btn-warning" ng-click="containerRestart();">重启</button>
+          <button class="btn btn-primary" ng-click="containerStop();">停止</button>
+          <button class="btn btn-danger" ng-click="containerRemove();">删除</button>
+        </div>
+          <div class="form-inline">
+            <label for="">容器名称</label>
+            <span>{{Info.Name | alterName}}</span>
+          </div>
+          <div class="form-inline">
+            <label for="">状态</label>
+            <label class="label label-{{status}}">{{Info.State.Status}}</label>
+          </div>
+          <div class="form-inline">
+            <label for="">创建时间</label>
+            <span>{{Info.Created_ex}}</span>
+          </div>
+          <div class="form-inline">
+            <label for="">命令</label>
+            <span>{{Info.Config.Cmd}}</span>
+          </div>
+          <div class="form-inline">
+            <label for="">镜像</label>
+            <span>{{Info.Config.Image}}</span>
+          </div>
+          <div class="form-inline">
+            <label for="">宿主</label>
+            <span>{{Info.Node.Name}}/{{Info.Node.IP}}</span>
+          </div>
+          <div class="form-inline">
+            <label for="">网络</label>
+            <span>{{networkName}}</span>
+          </div>
+          <div class="form-inline">
+            <label for="">IP地址</label>
+            <span>{{Info.NetworkSettings.Networks[networkName].IPAddress}}</span>
+          </div>
+
+          <div>
+            <label>服务端点</label>
+          </div>
+          <ul ng-repeat="(k, v) in Info.NetworkSettings.Ports" style="display:{{exposeDisplay}}">
+            <div ng-repeat="ep in v">
+              <li>{{ep.HostIp}}:{{ep.HostPort}} -> {{k}}</li>
+            </div>
+          </ul>
+
+          <div>
+            <label for="" ng-click="volumeClick();";><a href="#">数据卷({{Info.Mounts.length}})</a></label>
+          </div>
+          <ul ng-repeat="m in Info.Mounts" style="display:{{volumeDisplay}}">
+            <li>{{m.Source}} -> {{m.Destination}}</li>
+          </ul>
+          
+          <div>
+            <label for="" ng-click="envClick();"><a href="#">环境变量({{Info.Config.Env.length}})</a></label>
+          </div>
+          <ul ng-repeat="e in Info.Config.Env" style="display:{{envDisplay}}">
+            <li>{{e}}</li>
+          </ul>
+        </div>
+        <div style="width:69%;height:400px;float:right;margin-left:4px;">
+          <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+              <div class="panel-heading" style="padding: 8px;">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" 
+                    href="#collapseCPU" ng-click="openCPUStats();">
+                    CPU使用率
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseCPU" class="panel-collapse collapse">
+                <div class="panel-body" style="padding: 5px;">
+                  <div class="form-inline">
+                    <select class="form-control input-sm" ng-model="cpuShowScope" ng-change="showScopeChange('cpu');">
+                        <option value="60">1分钟</option>
+                        <option value="300">5分钟</option>
+                        <option value="600">10分钟</option>
+                        <option value="900">15分钟</option>
+                        <option value="1800">半小时</option>
+                        <option value="3600">1小时</option>
+                    </select>
+                  </div>
+                  <div id="cpu_stats" style="width: 100%;height:289px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" style="padding: 8px;">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" 
+                    href="#collapseMem" ng-click="openMemStats();">
+                    内存使用率
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseMem" class="panel-collapse collapse">
+                <div class="panel-body" style="padding: 5px;">
+                  <div class="form-inline">
+                    <select class="form-control input-sm" ng-model="memShow">
+                        <option value="usage">内存使用量</option>
+                        <option value="percent">内存使用百分比</option>
+                    </select>
+                    <select class="form-control input-sm" ng-model="memShowScope" ng-change="showScopeChange('mem');">
+                        <option value="60">1分钟</option>
+                        <option value="300">5分钟</option>
+                        <option value="600">10分钟</option>
+                        <option value="900">15分钟</option>
+                        <option value="1800">半小时</option>
+                        <option value="3600">1小时</option>
+                    </select>
+                  </div>
+                  <div id="mem_stats" style="width: 100%;height:289px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" style="padding: 8px;">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" 
+                    href="#collapseNet" ng-click="openNetStats();">
+                    网络使用率
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseNet" class="panel-collapse collapse">
+                <div class="panel-body" style="padding: 5px;">
+                  <div class="form-inline">
+                    <select class="form-control input-sm" ng-model="selectedInterface" ng-options="key for (key,value) in stats_data.net.interfaces">
+                    </select>
+                    <select class="form-control input-sm" ng-model="netShowScope" ng-change="showScopeChange('net');">
+                        <option value="60">1分钟</option>
+                        <option value="300">5分钟</option>
+                        <option value="600">10分钟</option>
+                        <option value="900">15分钟</option>
+                        <option value="1800">半小时</option>
+                        <option value="3600">1小时</option>
+                    </select>
+                  </div>
+                  <div id="net_stats" style="width: 100%;height:289px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <textarea name="" id="" rows="20" class="mytextarea form-control" style="display:{{moreDisplay}}">{{TextArea}}</textarea>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+.tool{
+  width: 90px;
+  display: inline-block;
+  text-align: center;
+  margin: 0px 2px;
+  border: 1px solid #FFFFFF;
+}
+.tool:hover{
+  border: 1px solid #CCCCCC;
+  background-color: #DDDDDD;
+  transition-duration: 0.3s;
+}
+.toolbutton {
+    width:64px;
+    height:64px;
+    margin:10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 4px;
+    transition-duration: 0.3s;
+}
+.toolbutton:hover{
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.toolbutton:active{
+}
+.updateSign{
+  height: 20px;
+  width:20px;
+  position: absolute;
+  margin-top: 4px;
+  margin-left: 58px;
+}
+.myloader{
+  padding-left: 34px;
+  padding-top: 33px;
+  position: absolute;
+}
