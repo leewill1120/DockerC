@@ -119,10 +119,6 @@ ipcMain.on('asynchronous-message', function(event, arg){
     case 'reload':
       win.reload();
       break;
-    case 'openConsole':
-      win2 = new BrowserWindow(arg.window);
-      win2.loadURL(`file://${__dirname}/html/console.html`);
-      break;
     case 'openAppMarket':
       win3 = new BrowserWindow({
         width: 960, 

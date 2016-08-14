@@ -1,23 +1,26 @@
 const electron = nodeRequire('electron');
 const ipcRenderer = electron.ipcRenderer;
-const remote = electron.remote
+const remote = electron.remote;
+const BrowserWindow = remote.BrowserWindow;
 
 var myApp = angular.module('myApp',['toastr']);
 const cacheLength = 3600;
 const defaultStartShowIndex = cacheLength - 60;
 
 myApp.filter('alterName', function(){
-	return function(input){
-		if(undefined == input){
-			return;
-		}
-		if('/' == input[0]){
-			return input.substr(1);
-		}else{
-			return input;
-		}
-	}
+	return alterName;
 });
+
+var alterName = function(input){
+	if(undefined == input){
+		return;
+	}
+	if('/' == input[0]){
+		return input.substr(1);
+	}else{
+		return input;
+	}
+}
 
 myApp.controller('containerDetailController',function($scope, toastr, dockerService){
 	$scope.summaryDisplay = "display";
@@ -404,12 +407,11 @@ myApp.controller('containerDetailController',function($scope, toastr, dockerServ
 	};
 
 	$scope.openConsole =  function(){
-		win = {
+      var win = new BrowserWindow({
         	frame:false,
         	resizable:true
-		};
-		//ipcRenderer.send('asynchronous-message', {cmd:'reload'});
-		ipcRenderer.send('asynchronous-message', {cmd:'openConsole', window:win});
+      });
+      win.loadURL(`file://${__dirname}/../html/console.html?containerId=${$scope.Info.Id}`);
 	};
 
 	$scope.envClick = function(){

@@ -5,6 +5,8 @@ const ipcRenderer = electron.ipcRenderer;
 
 var myApp = angular.module('myApp',[]);
 myApp.controller('summaryController',function($scope, dockerService){
+
+	//创建docker实例
 	var docker = undefined;
 	if("" == localStorage.dockerIP || "" == localStorage.dockerPort){
 		$scope.APIAddress = "";

@@ -90,10 +90,13 @@ myApp.controller('containerCreateController',function($scope, toastr, dockerServ
 
 	dockerService.volumeList(localStorage.dockerIP, localStorage.dockerPort)
 		.success(function(data, status, headers){
-			for (var i = data.Volumes.length - 1; i >= 0; i--) {
-				volumes[data.Volumes[i].Name] = data.Volumes[i];
-				$scope.volumes[data.Volumes[i].Name] = data.Volumes[i];
+			if(null != data.volumes){
+				for (var i = data.Volumes.length - 1; i >= 0; i--) {
+					volumes[data.Volumes[i].Name] = data.Volumes[i];
+					$scope.volumes[data.Volumes[i].Name] = data.Volumes[i];
+				}
 			}
+			readyCnt--;
 		}).error(function(data, status, headers){
 			toastr.error(`获取数据卷列表失败,${status},${data}`);
 		});
@@ -297,7 +300,8 @@ myApp.controller('containerCreateController',function($scope, toastr, dockerServ
 
 	$scope.containerCreate = function(autoStart){
 		var config = {
-			Hostname: $scope.name,
+			Hostname: $scope.name.replace(/_/g, '-'),
+	        OpenStdin: true,
 			Tty:true,
 			Env:[],
 			Cmd:[],

@@ -1,17 +1,16 @@
 .header{
 	width:100%;
-	height: 10%;
-	background-color: #800080;
+	height: 60px;
 	-webkit-app-region: drag;
 }
 
 .headline{
-	font-size: 15px;
+	font-size: 20px;
 	font-family: '幼圆';
 	color: white;
 	position: absolute;
-	top: 20px;
-	left: 20px;
+	line-height: 60px;
+	padding-left: 20px;
 }
 
 .topright{
@@ -28,4 +27,19 @@
 
 .mybody{
 	height: 90%;
+}
+
+.operator {
+  border: none;
+  color: white;
+  padding: 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  margin:3px;
 }

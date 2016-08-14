@@ -24,11 +24,13 @@
         <script src="../js/consoleController.js"></script>
     </head>
     <body ng-controller="consoleController">
-        <div class="header">
+        <div class="header" style="background-color:#{{headerColor}};">
             <div class="topright">
-                <button type="button" class="close quit" aria-label="Close" ng-click="quit();"><span aria-hidden="true">&times;</span></button>
+                <div class="glyphicon glyphicon-minus operator" ng-click="minimize();"></div>
+                <div class="glyphicon glyphicon-fullscreen operator" ng-click="maximize();"></div>
+                <div class="glyphicon glyphicon-remove operator" ng-click="quit();"></div>
             </div>
-            <div class="headline">控制台</div>
+            <div class="headline">{{containerInfo.Name}} - 控制台 - {{connectStatus}}</div>
         </div>
         <div class="mybody">
             <div id="terminal-container" style="height:100%;"></div>

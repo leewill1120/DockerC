@@ -97,11 +97,10 @@ myApp.controller('imageController',function($scope, toastr, dockerService){
 			$scope.images[id].Status = '(删除中)';
 			dockerService.imageRemove(localStorage.dockerIP, localStorage.dockerPort, id)
 				.success(function(data, status, headers){
-					console.log(data.toString());
 					$scope.refresh();
 				}).error(function(data, status, headers){
 					$scope.images[id].Status = '';
-					toastr.error(data + '状态码:' + status);
+					toastr.error(data.message + '状态码:' + status);
 				});
 		}
 	};

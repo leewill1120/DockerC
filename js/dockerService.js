@@ -9,8 +9,18 @@ myApp.factory('dockerService', function($http){
 			});
 		},
 		containerList: function(host, port){
+			var h = {
+						"username": "liwei", 
+						"password": "123456z", 
+						"email": "",
+   						"serveraddress" :host,
+   						"auth": ""
+					};
 			return $http({
 				method:'GET',
+				headers:{
+					'X-Registry-Auth': JSON.stringify(h)
+				},
 				url:'http://' + host + ':' + port + '/containers/json?all=1'
 			});
 		},

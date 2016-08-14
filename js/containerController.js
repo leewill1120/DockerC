@@ -380,6 +380,14 @@ myApp.controller('containerController',function($scope, toastr, dockerService){
       win.loadURL(`file://${__dirname}/../html/containerUpdate.html?srcContainerName=${name}`);
 	};
 
+	$scope.containerConsole = function(Id){
+      var win = new BrowserWindow({
+        	frame:false,
+        	resizable:true
+      });
+      win.loadURL(`file://${__dirname}/../html/console.html?containerId=${Id}`);
+	};
+
 	$scope.verifyUser = function(containerId){
 		if(undefined == containerId){
 			console.log('verifyUser needs containerId.');

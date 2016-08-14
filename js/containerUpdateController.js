@@ -94,9 +94,11 @@ myApp.controller('containerUpdateController',function($scope, toastr, dockerServ
 
 	dockerService.volumeList(localStorage.dockerIP, localStorage.dockerPort)
 		.success(function(data, status, headers){
-			for (var i = data.Volumes.length - 1; i >= 0; i--) {
-				volumes[data.Volumes[i].Name] = data.Volumes[i];
-				$scope.volumes[data.Volumes[i].Name] = data.Volumes[i];
+			if(null != data.volumes){
+				for (var i = data.Volumes.length - 1; i >= 0; i--) {
+					volumes[data.Volumes[i].Name] = data.Volumes[i];
+					$scope.volumes[data.Volumes[i].Name] = data.Volumes[i];
+				}
 			}
 			readyCnt--;
 		}).error(function(data, status, headers){
@@ -118,6 +120,10 @@ myApp.controller('containerUpdateController',function($scope, toastr, dockerServ
 
 					//容器名称
 					$scope.name = data.Name.replace('/', '');
+
+					//主机名
+					$scope.hostname = data.Config.Hostname;
+
 					//获取镜像
 					$scope.image = data.Config.Image;
 					//CMD
@@ -425,7 +431,8 @@ myApp.controller('containerUpdateController',function($scope, toastr, dockerServ
 	$scope.containerCreate = function(autoStart){
 		//开始创建新容器
 		var config = {
-			Hostname: $scope.name,
+			Hostname: $scope.hostname,
+	        OpenStdin: true,
 			Tty:true,
 			Env:[],
 			Cmd:[],
